@@ -36,6 +36,8 @@ const urlSchema = new Schema({
   index: {type: Number, required: true},
   url: {type: String, required: true}
 });
+const url = mongoose.model('url', urlSchema);
+
 
 
 
