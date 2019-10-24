@@ -12,7 +12,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/ 
- mongoose.connect(process.env.MONGOLAB_URI, {useUnifiedTopology: true, });
+ mongoose.connect(process.env.MONGO_URI, {useUnifiedTopology: true, useNewUrlParser: true});
 
 app.use(cors());
 
@@ -30,6 +30,12 @@ app.get('/', function(req, res){
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
+
+const Schema = mongoose.Schema;
+const urlSchema = new urlSchema({
+  index: {type: Number, required: true},
+  url: 
+})
 
 
 app.listen(port, function () {
