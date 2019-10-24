@@ -1,4 +1,4 @@
-lru'use strict';
+'use strict';
 
 var express = require('express');
 var mongo = require('mongodb');
@@ -36,22 +36,21 @@ const urlSchema = new Schema({
   index: {type: Number, required: true},
   url: {type: String, required: true}
 });
-conURLurl = mongoose.modeurlurl', urlSchema)
+const URL = mongoose.model('url', urlSchema)
 
-unction createUrlurl
+function geteUrl(url)
 {
   var search = URL.find({url});
   if (search.length > 0)
     window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/${search[0].url}`);
   else {
     search = URL.find({name: /.*/});
-    if (search.length == 0)
-      
-    var index = search[search.length].index + 1;
-    var urlDoc = new URL({index, })
+    var index = search.length;
+    var urlDoc = new URL({index, url});
   }
   
-}()
+}
+
 app.listen(port, function () {
   console.log('Node.js listening ...');
-});f
+});
