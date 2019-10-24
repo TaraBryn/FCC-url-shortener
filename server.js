@@ -40,15 +40,18 @@ const URL = mongoose.model('url', urlSchema)
 
 function geteUrl(url)
 {
-  var search = URL.find({url});
+  let search = URL.find({url}, function(err, urlData){
+    if (err) return console.log(err);
+    if (urlData.length > 0)
+  });
+  /*var search = URL.find({url});
   if (search.length > 0)
     window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/${search[0].url}`);
   else {
-    search = URL.find({name: /.*/});
+    search = URL.find({name: /.*-/});
     var index = search.length;
     var urlDoc = new URL({index, url});
-  }
-  
+  }*/
 }
 
 app.listen(port, function () {
