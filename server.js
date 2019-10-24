@@ -32,10 +32,12 @@ app.get("/api/hello", function (req, res) {
 });
 
 const Schema = mongoose.Schema;
-const urlSchema = new urlSchema({
+const urlSchema = new Schema({
   index: {type: Number, required: true},
-  url: 
-})
+  url: {type: String, required: true}
+});
+
+
 
 
 app.listen(port, function () {
