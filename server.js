@@ -40,7 +40,12 @@ conurlModelurl = mongoose.modeurlurl', urlSchema)
 
 unction createUrlurl
 {
-  URL.find({url});
+  var search = URL.find({url});
+  if (search.length > 0)
+    window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/${search[0].url}`);
+  else {
+    var urlDocument = new urlModel
+  }
   
 }()
 app.listen(port, function () {
