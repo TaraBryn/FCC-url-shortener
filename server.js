@@ -36,7 +36,7 @@ const urlSchema = new Schema({
   index: {type: Number, required: true},
   url: {type: String, required: true}
 });
-conurlModelurl = mongoose.modeurlurl', urlSchema)
+conURLurl = mongoose.modeurlurl', urlSchema)
 
 unction createUrlurl
 {
@@ -44,7 +44,11 @@ unction createUrlurl
   if (search.length > 0)
     window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/${search[0].url}`);
   else {
-    var urlDocument = new urlModel
+    search = URL.find({name: /.*/});
+    if (search.length == 0)
+      
+    var index = search[search.length].index + 1;
+    var urlDoc = new URL({index, })
   }
   
 }()
