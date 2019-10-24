@@ -1,4 +1,4 @@
-'use strict';
+lru'use strict';
 
 var express = require('express');
 var mongo = require('mongodb');
@@ -36,12 +36,13 @@ const urlSchema = new Schema({
   index: {type: Number, required: true},
   url: {type: String, required: true}
 });
-const url = mongoose.model('url', urlSchema);
+conurlModelurl = mongoose.modeurlurl', urlSchema)
 
-
-
-
-
+unction createUrlurl
+{
+  URL.find({url});
+  
+}()
 app.listen(port, function () {
   console.log('Node.js listening ...');
-});
+});f
