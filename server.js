@@ -40,9 +40,14 @@ const URL = mongoose.model('url', urlSchema)
 
 function geteUrl(url)
 {
-  let search = URL.find({url}, function(err, urlData){
-    if (err) return console.log(err);
-    if (urlData.length > 0)
+  let search = URL.find({url}, function(err, data){
+    if (err) {
+      console.log(err);
+      return null;
+    }
+    if (data.length > 0)
+      return data;
+    
   });
   /*var search = URL.find({url});
   if (search.length > 0)
