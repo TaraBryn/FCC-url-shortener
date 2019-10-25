@@ -48,6 +48,9 @@ const urlSchema = new Schema({
 const URL = mongoose.model('url', urlSchema)
 
 app.post('/api/shorturl/new', function(req, res){
+  var invalidUrl = {error: 'invalid URL'};
+  var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+  if (urlRegex.test)
   URL.find({url: req.body.url}, function(urlError, urlData){
     if (urlError) return res.json({urlError});
     if (urlData.length > 0) return res.json({original_url: req.body.url, short_url: urlData[0].index});
@@ -79,7 +82,7 @@ app.get('/api/shorturl/:index', function(req, res){
 });
 
 app.get('/test', function(req, res){
-  dns.lookup('www.google.com', function(error, address, family){
+  dns.lookup('translate.google.com', function(error, address, family){
     if(error) return res.json({error});
     return res.json({address, family})
   })
