@@ -50,7 +50,7 @@ const URL = mongoose.model('url', urlSchema)
 app.post('/api/shorturl/new', function(req, res){
   //test for invalid url
   var invalidUrl = {error: 'invalid URL'};
-  var url = req.params.url;
+  var url = req.body.url;
   var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
   console.log('test');
   if (!urlRegex.test(url)) return res.json(invalidUrl);
@@ -58,8 +58,8 @@ app.post('/api/shorturl/new', function(req, res){
   var strippedUrl = url.match(urlStripper)[0];
   console.log(strippedUrl);
   var dnsFailed;
-  dns.lookup(strippedUrl, err => dnsFailed = err);
-  if (dnsFailed) return res.json(invalidUrl);
+  (dns.lookup(strippedUrl, err => dnsFailed = err));
+  //if (dnsFailed) return res.json(invalidUrl);
   
   //find or create and return url index
   URL.find({url}, function(urlError, urlData){
@@ -92,8 +92,8 @@ app.get('/api/shorturl/:index', function(req, res){
   });
 });
 
-app.get('/test', function(req, res){
-  dns.lookup('translate.google.com', function(error, address, family){
+app.get('/api/test-urls/:url', function(req, res){
+  dns.lookup(req.params.url, function(error, address, family){
     if(error) return res.json({error});
     return res.json({address, family})
   })
