@@ -54,7 +54,7 @@ app.post('/api/shorturl/new', function(req, res){
       if (allError) return res.json(allError);
       var index = allData.length;
       var urlDoc = new URL({index, url: req.body.url});
-      urlDoc.dave(function(saveError, saveData){
+      urlDoc.save(function(saveError, saveData){
         if (saveError) return res.json({saveError});
         res.json({original_url: req.body.url, short_url: saveData.index});
       });
@@ -63,8 +63,10 @@ app.post('/api/shorturl/new', function(req, res){
 });
 
 app.get('/api/shorturl/:index', function(req, res){
-  URL.find({index: req.params.index}, function(err, data){
-    //if (err) res.json({error: })
+  URL.find({}}, function(error, data){
+    if (error) return res.json({error});
+    if (index > data.length-1) return res.json({error: 'no short url found for give input'});
+    window.open(data[0].url);
   });
 });
 
