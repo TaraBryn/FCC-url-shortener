@@ -3,10 +3,18 @@
 var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 
 var cors = require('cors');
 
 var app = express();
+
+app.use(function(req, res, next){
+  console.log(`${req.method} ${req.path} - ${req.ip}`);
+  next();
+})
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Basic Configuration 
 var port = process.env.PORT || 3000;
@@ -63,7 +71,7 @@ app.post('/api/shorturl/new', function(req, res){
 
 app.get('/api/shorturl/:index', function(req, res){
   URL.find({index: req.params.index}, function(err, data){
-    if (err) res.json
+    if (err) res.json({error: })
   });
 });
 
