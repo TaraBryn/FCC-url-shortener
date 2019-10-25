@@ -63,10 +63,17 @@ app.post('/api/shorturl/new', function(req, res){
 });
 
 app.get('/api/shorturl/:index', function(req, res){
-  URL.find({}}, function(error, data){
+  URL.find({}, function(error, data){
     if (error) return res.json({error});
-    if (index > data.length-1) return res.json({error: 'no short url found for give input'});
-    window.open(data[0].url);
+    var index;
+    try{
+      index = parseInt(req.params.index)
+    }
+    catch(e){
+      return res.json({'error': e})
+    }
+    if (index > data.length-1 || index < 0) return res.json({error: 'no short url found for give input'});
+    return res.redirect(data[index].url);
   });
 });
 
