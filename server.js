@@ -4,6 +4,7 @@ var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var dns = require('dns');
 
 var cors = require('cors');
 
@@ -76,6 +77,13 @@ app.get('/api/shorturl/:index', function(req, res){
     return res.redirect(data[index].url);
   });
 });
+
+app.get('/test', function(req, res){
+  dns.lookup('https://google.com/', function(err, address, family){
+    if(err) return res.json({err});
+    return res.json({address, family})
+  })
+})
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
