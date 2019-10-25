@@ -47,13 +47,21 @@ const urlSchema = new Schema({
 const URL = mongoose.model('url', urlSchema)
 
 app.post('/api/shorturl/new', function(req, res){
+  URL.find({url: req.body.url}, function(urlError, urlData){
+    if (urlError) return res.json({urlError});
+    if (urlData.length > 0) return res.json({original_url: req.body.url, short_url: urlData[0].index});
+    URL.find({name: /.*/})
+  })
+})
+
+/*app.post('/api/shorturl/new', function(req, res){
   URL.find({url: req.body.url}, function(urlErr, urlData){
     if (urlErr) 
       res.json({error: urlErr});
     else if(urlData.length > 0) 
       res.json({original_url: req.body.url, short_url: urlData[0].index});
     else
-      URL.find({name: /.*/}, function(allErr, allData){
+      URL.find({name: /.*-/}, function(allErr, allData){
         if (allErr) res.json({error: allErr});
         else {
           var index = allData.length;
@@ -67,7 +75,7 @@ app.post('/api/shorturl/new', function(req, res){
         }
       });
   });
-});
+});*/
 
 app.get('/api/shorturl/:index', function(req, res){
   URL.find({index: req.params.index}, function(err, data){
