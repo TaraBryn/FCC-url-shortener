@@ -38,14 +38,14 @@ const urlSchema = new Schema({
 });
 const URL = mongoose.model('url', urlSchema)
 
-function geteUrl(url)
+/*function geteUrl(url)
 {
   URL.find({url}, function(err, urlData){
     if (err) return console.log(err);
     if (urlData.length > 0)
       window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/new/${urlData[0].url}`);
     else
-      URL.find({name: /.*/}, function(err2, allData){
+      URL.find({name: /.*-/}, function(err2, allData){
         if (err2) return console.log(err2);
         var index = allData.length;
         var urlDoc = new URL({index, url});
@@ -63,7 +63,7 @@ function geteUrl(url)
     var index = search.length;
     var urlDoc = new URL({index, url});
   }*/
-}
+//}
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
