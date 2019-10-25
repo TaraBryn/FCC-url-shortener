@@ -58,7 +58,7 @@ app.post('/api/shorturl/new', function(req, res){
   var strippedUrl = url.match(urlStripper)[0];
   console.log(strippedUrl);
   var dnsFailed;
-  (dns.lookup(strippedUrl, err => {if (!err) dnsFailed = ;}));
+  (dns.lookup(strippedUrl, err {if (err) dnsFailed = true;}));
   console.log(dnsFailed);
   //find or create and return url index
   URL.find({url}, function(urlError, urlData){
