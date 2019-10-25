@@ -79,7 +79,7 @@ app.get('/api/shorturl/:index', function(req, res){
 });
 
 app.get('/test', function(req, res){
-  dns.lookup('https://www.google.com/', function(error, address, family){
+  dns.lookup('www.google.com', function(error, address, family){
     if(error) return res.json({error});
     return res.json({address, family})
   })
