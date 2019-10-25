@@ -51,7 +51,12 @@ app.post('/api/shorturl/new', function(req, res){
   var invalidUrl = {error: 'invalid URL'};
   var url = req.params.url;
   var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-  if (!urlRegex.test(url)) return res.json(invalidUrl)
+  if (!urlRegex.test(url)) return res.json(invalidUrl);
+  var urlStripper = /(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}/
+  var strippedUrl = url.match(urlStripper)[0];
+  var dnsFailed;
+  dns.lookup(strippedUrl, err => dnsFailed = err);
+  if (dnsFailed) return res.json(invalidUrl);
   URL.find({url}, function(urlError, urlData){
     if (urlError) return res.json({urlError});
     if (urlData.length > 0) return res.json({original_url: url, short_url: urlData[0].index});
