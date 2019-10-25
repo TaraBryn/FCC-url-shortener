@@ -65,6 +65,13 @@ const URL = mongoose.model('url', urlSchema)
   }*/
 //}
 
+app.post('/api/shorturl/new', function(req, res){
+  res.json(URL.find({url: req.body.url}, function(urlErr, urlData){
+    if (urlErr) return {err: urlErr};
+    if (urlData.length > 0) return {original_url: req.body.url, short_url: urlData[0].index};
+  }));
+})
+
 app.listen(port, function () {
   console.log('Node.js listening ...');
 });
