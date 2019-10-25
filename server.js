@@ -71,7 +71,7 @@ app.post('/api/shorturl/new', function(req, res){
 
 app.get('/api/shorturl/:index', function(req, res){
   URL.find({index: req.params.index}, function(err, data){
-    if (err) res.json({error: })
+    //if (err) res.json({error: })
   });
 });
 
