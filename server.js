@@ -66,15 +66,22 @@ const URL = mongoose.model('url', urlSchema)
 //}
 
 app.post('/api/shorturl/new', function(req, res){
-  
   res.json(URL.find({url: req.body.url}, function(urlErr, urlData){
     if (urlErr) return {error: urlErr};
     if (urlData.length > 0) return {original_url: req.body.url, short_url: urlData[0].index};
     return URL.find({name: /.*/}, function(allErr, allData){
       if (allErr) return {error: allErr}
-    })
+      var index = allData.length;
+      var urlDoc = new URL({index, url: req.body.url});
+      return urlDoc.save(function(saveErr, data){
+        if (saveErr) return {error: saveErr};
+        return {original_url: req.body.url, short_url: data.index};
+      });
+    });
   }));
-})
+});
+
+app.get('/api/shorturl/index')
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
