@@ -49,18 +49,19 @@ const URL = mongoose.model('url', urlSchema)
 
 app.post('/api/shorturl/new', function(req, res){
   var invalidUrl = {error: 'invalid URL'};
+  var url = req.params.url;
   var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-  if (urlRegex.test)
-  URL.find({url: req.body.url}, function(urlError, urlData){
+  if (!urlRegex.test(url)) return res.json(invalidUrl)
+  URL.find({url}, function(urlError, urlData){
     if (urlError) return res.json({urlError});
-    if (urlData.length > 0) return res.json({original_url: req.body.url, short_url: urlData[0].index});
+    if (urlData.length > 0) return res.json({original_url: url, short_url: urlData[0].index});
     URL.find({}, function(allError, allData){
       if (allError) return res.json(allError);
       var index = allData.length;
-      var urlDoc = new URL({index, url: req.body.url});
+      var urlDoc = new URL({index, url});
       urlDoc.save(function(saveError, saveData){
         if (saveError) return res.json({saveError});
-        res.json({original_url: req.body.url, short_url: saveData.index});
+        res.json({original_url: url, short_url: saveData.index});
       });
     });
   });
