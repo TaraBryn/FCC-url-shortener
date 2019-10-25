@@ -38,50 +38,34 @@ const urlSchema = new Schema({
 });
 const URL = mongoose.model('url', urlSchema)
 
-/*function geteUrl(url)
-{
-  URL.find({url}, function(err, urlData){
-    if (err) return console.log(err);
-    if (urlData.length > 0)
-      window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/new/${urlData[0].url}`);
+app.post('/api/shorturl/new', function(req, res){
+  URL.find({url: req.body.url}, function(urlErr, urlData){
+    if (urlErr) 
+      res.json({error: urlErr});
+    else if(urlData.length > 0) 
+      res.json({original_url: req.body.url, short_url: urlData[0].index});
     else
-      URL.find({name: /.*-/}, function(err2, allData){
-        if (err2) return console.log(err2);
-        var index = allData.length;
-        var urlDoc = new URL({index, url});
-        urlDoc.save(function(err3, data){
-          if (err3) return console.log(err3);
-        });
-        window.open
+      URL.find({name: /.*/}, function(allErr, allData){
+        if (allErr) res.json({error: allErr});
+        else {
+          var index = allData.length;
+          var urlDoc = new URL({index, url: req.body.url});
+          urlDoc.save(function(saveErr, data){
+          if (saveErr) 
+            res.json({error: saveErr});
+          else 
+            res.json({original_url: req.body.url, short_url: data.index});
+          });
+        }
       });
   });
-  /*var search = URL.find({url});
-  if (search.length > 0)
-    window.open(`https://tarabryn-url-shortener.glitch.me/api/shorturl/${search[0].url}`);
-  else {
-    search = URL.find({name: /.*-/});
-    var index = search.length;
-    var urlDoc = new URL({index, url});
-  }*/
-//}
-
-app.post('/api/shorturl/new', function(req, res){
-  res.json(URL.find({url: req.body.url}, function(urlErr, urlData){
-    if (urlErr) return {error: urlErr};
-    if (urlData.length > 0) return {original_url: req.body.url, short_url: urlData[0].index};
-    return URL.find({name: /.*/}, function(allErr, allData){
-      if (allErr) return {error: allErr}
-      var index = allData.length;
-      var urlDoc = new URL({index, url: req.body.url});
-      return urlDoc.save(function(saveErr, data){
-        if (saveErr) return {error: saveErr};
-        return {original_url: req.body.url, short_url: data.index};
-      });
-    });
-  }));
 });
 
-app.get('/api/shorturl/index')
+app.get('/api/shorturl/:index', function(req, res){
+  URL.find({index: req.params.index}, function(err, data){
+    if (err) res.json
+  });
+});
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
